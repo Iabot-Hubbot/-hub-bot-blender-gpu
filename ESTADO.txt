@@ -1,0 +1,11 @@
+PROTOTIPO LOCAL, NO DESPLEGADO. NO ES INTEGRACION COMPLETA.
+Base: Dockerfile oficial runpod-workers/worker-template consultado por HTTP.
+Contenido: contrato de entrada, handler RunPod, script Blender Cycles OptiX y cuatro pruebas de contrato.
+Pruebas ejecutadas: 4/4 contrato OK; py_compile OK. No se ha construido imagen ni probado handler real, uploads, OptiX, denoising o render remoto.
+Dockerfile exige checksum oficial Blender como argumento de build; no se ha verificado disponibilidad ni checksum de esa descarga. No construir sin resolverlo.
+El caller debe proporcionar URLs HTTPS firmadas GET y PUT (no se asume compatibilidad directa de PUT con signed upload de Supabase), SHA256 y cámara en metros. STORAGE_ALLOWED_HOSTS obligatorio.
+Pendiente revisión de seguridad integral: validar recursos externos del GLB antes de importar, controles de tamaños/tiempo globales, timeout incluyendo uploads, transferencia privada, eliminación de metadatos sensibles de reportes y control de acceso real.
+Pendientes cliente Node/Hermes, presupuestos persistentes, idempotencia, aislamiento multiempresa, registro de herramientas y entrega a chat.
+No se proporciona control de gasto real con este prototipo. No enviar trabajos hasta completar esos controles y acordar acceso autorizado a registro/build/storage.
+Navegador compartido bloqueado por perfil Chromium en otro ordenador; no se ha accedido a sesión RunPod del usuario. No se ha usado API key de chat ni activado GPU.
+No instalar Docker en VPS ni Daytona. Construir en CI o build remoto autorizado tras revisión.
