@@ -43,4 +43,5 @@ def handler(job):
    if response.status_code not in (200,201,204): raise RuntimeError('Private storage upload failed: '+key)
   return {'uploaded':['png','blend','report'],'report':report}
 
-if __name__=='__main__': runpod.serverless.start({'handler':handler})
+if __name__ == "__main__":
+    runpod.serverless.start({"handler": handler})
