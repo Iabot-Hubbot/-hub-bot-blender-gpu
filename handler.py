@@ -22,14 +22,15 @@ def handler(job):
   p=Path(directory); digest=hashlib.sha256(); size=0
   with requests.get(x['model_url'],stream=True,timeout=(15,120),allow_redirects=False) as r:
    if r.status_code!=200: raise RuntimeError('Model download failed')
-   with (p/'model.glb').open('wb') as f:
+   with (p/('model.'+x['model_format'])).open('wb') as f:
     for chunk in r.iter_content(1024*1024):
      size+=len(chunk)
      if size>MAX_BYTES: raise ValueError('Model exceeds 512MiB')
      digest.update(chunk); f.write(chunk)
   if digest.hexdigest()!=x['model_sha256']: raise ValueError('Model checksum mismatch')
   # Signed upload/download URLs and other caller metadata never enter the blend file.
-  params={k:x[k] for k in ('camera','resolution','samples')}
+  params={k:x[k] for k in ('model_format','resolution','samples')}
+  if x['model_format']=='glb': params['camera']=x['camera']
   (p/'job.json').write_text(json.dumps(params))
   runpod.serverless.progress_update(job,{'stage':'rendering'})
   with (p/'blender.log').open('w') as log:

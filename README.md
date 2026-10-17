@@ -15,3 +15,17 @@ Worker rejects CPU fallback and requires OptiX. It imports the existing geometry
 Run tests: python3 -m unittest test_contract.py
 
 Outstanding: container build verification, real GPU render, private storage provisioning and signed PUT compatibility, deployment/API orchestration, durable spend accounting, tenant isolation in trusted caller, cancellation, scale-to-zero verification, and Hermes tool registration. Unit tests do not verify these requirements.
+
+## Packed Blender scenes
+
+Set `model_format: "blend"` to render a self-contained BLEND. Default remains
+`glb` for existing callers. The active scene must contain meshes and an active
+camera. Its camera, lights, world, material nodes, units and color management are
+retained. Job resolution, samples and GPU execution policy still apply.
+Pack image textures and HDRIs, make linked libraries local, and remove external
+media and compositor File Output nodes. Auto-execution of embedded scripts is
+disabled. This is not a sandbox for arbitrary untrusted Blender content; the
+trusted caller must enforce ownership and access. Render on an isolated worker.
+The transfer service must offer `model.blend`; do not send BLEND to old workers.
+A new GitHub release triggers the configured RunPod build. A successful unit
+test or release publication does not establish completed deployment or a GPU render.
